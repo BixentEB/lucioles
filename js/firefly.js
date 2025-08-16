@@ -1,7 +1,5 @@
 // Luciole pour page INTRO
-// la luciole flotte tranquillement 
-//quand tu vas vers le bouton, elle te rejoint et orbite gentiment dessus (effet “viens, on entre ✨”). //
-
+// flotte tranquillement ; à l’approche du bouton, elle rejoint et orbite ✨
 (function(){
   const firefly = document.getElementById('firefly');
   const btn = document.getElementById('enter-btn');
@@ -42,6 +40,24 @@
 
   function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
 
+  // --- petites étincelles derrière la luciole ---
+  function spawnSpark(x, y){
+    const s = document.createElement('span');
+    s.className = 'firefly-spark';
+    s.style.left = x + (Math.random()*12 - 6) + 'px';
+    s.style.top  = y + (Math.random()*12 - 6) + 'px';
+    document.body.appendChild(s);
+    setTimeout(()=> s.remove(), 800); // auto-destruction
+  }
+  let sparkTimer = 0;
+  function sparkle(x, y, mode){
+    const now = performance.now();
+    if(mode && now - sparkTimer > 120){ // ~toutes les 120ms
+      spawnSpark(x, y);
+      sparkTimer = now;
+    }
+  }
+
   function animate(){
     const w = window.innerWidth;
     const h = window.innerHeight;
@@ -52,37 +68,35 @@
       const dy = cy - y;
       const dist = Math.hypot(dx, dy);
 
-      // on dirige la luciole vers le bouton (steering simple)
-      const speed = 1.2; // vitesse de rapprochement
+      // steering simple vers le bouton
       vx += (dx / (dist || 1)) * 0.08;
       vy += (dy / (dist || 1)) * 0.08;
 
-      // friction douce pour éviter une course folle
+      // friction douce
       vx *= 0.96;
       vy *= 0.96;
 
-      // si on est très proche, on passe en orbite mignonne autour du bouton
+      // orbite si très proche
       if(dist < 22){
         orbit = true;
         seek = false;
         t = 0;
       }
     } else if(orbit){
-      // petite orbite autour du centre du bouton
       const {cx, cy} = getButtonCenter();
       const radius = 14;
       t += 0.05;
       x = cx + Math.cos(t)*radius;
       y = cy + Math.sin(t)*radius * 0.6;
     } else {
-      // errance douce : bruit pauvre mais suffisant
+      // errance douce
       vx += (Math.random() - 0.5) * 0.05;
       vy += (Math.random() - 0.5) * 0.05;
       vx = clamp(vx, -0.8, 0.8);
       vy = clamp(vy, -0.8, 0.8);
     }
 
-    // mise à jour position si pas en orbite (sinon déjà fixée)
+    // mise à jour position si pas en orbite
     if(!orbit){
       x += vx;
       y += vy;
@@ -98,6 +112,9 @@
     firefly.style.left = x + 'px';
     firefly.style.top  = y + 'px';
 
+    // ✨ étincelles seulement quand seek/orbite
+    sparkle(x, y, seek || orbit);
+
     requestAnimationFrame(animate);
   }
 
@@ -106,8 +123,6 @@
   firefly.style.top  = y + 'px';
   requestAnimationFrame(animate);
 
-  // réajuste si resize
-  window.addEventListener('resize', () => {
-    // rien de spécial, on laisse l’animation recaler naturellement
-  });
+  // resize : l’anim se recale d’elle-même
+  window.addEventListener('resize', () => {});
 })();
