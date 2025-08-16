@@ -23,7 +23,8 @@ Chaque histoire est une **capsule de lumière** : une luciole à cueillir, qui b
 
 ## 📂 Structure prévue  
 
-- `index.html` → page d’accueil (*Comment te sens-tu ?*).  
+- `index.html` → page d’intro
+- `home.html` → page d'accueil (*Comment te sens-tu ?*).  
 - `css/` → styles (ambiances douces, étoilées, chaleureuses).  
 - `js/` → logique (sélection d’humeur, affichage aléatoire des contes).  
 - `contes/` → un fichier par conte (texte + image + thème visuel).  
