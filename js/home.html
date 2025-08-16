@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lucioles — Comment te sens-tu ?</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/home.css"/>
+</head>
+<body class="home">
+  <header class="topbar">
+    <a href="index.html" class="back">← Retour</a>
+    <h1>✨ Comment te sens-tu aujourd’hui ?</h1>
+  </header>
+
+  <main id="app">
+    <section class="moods" aria-label="Humeurs">
+      <button class="mood" data-humeur="triste">😢 Triste</button>
+      <button class="mood" data-humeur="perdu">🧭 Perdu</button>
+      <button class="mood" data-humeur="anxieux">🌊 Anxieux</button>
+      <button class="mood" data-humeur="seul">💙 Seul</button>
+      <button class="mood" data-humeur="fatigue">😴 Fatigué</button>
+      <button class="mood" data-humeur="lum">✨ En quête de lumière</button>
+      <button id="btn-surprise" title="Me surprendre">🎲 Surprise</button>
+    </section>
+
+    <section id="viewer" aria-live="polite">
+      <div class="viewer-inner">
+        <aside id="liste" aria-label="Autres contes"></aside>
+
+        <article id="conte">
+          <header>
+            <h2 id="titre">Choisis une humeur</h2>
+            <p class="sous-titre" id="sous-titre">Je te proposerai un conte-luciole…</p>
+          </header>
+          <figure id="vignette" hidden></figure>
+          <div id="texte" class="texte"></div>
+          <footer class="actions">
+            <button id="btn-autre" class="ghost" disabled>Un autre pour cette humeur</button>
+          </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script defer src="js/contes.js"></script>
+  <script defer src="js/home.js"></script>
+</body>
+</html>
