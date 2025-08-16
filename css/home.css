@@ -1,0 +1,101 @@
+/* layout */
+body.home{
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  color:#fff;
+  min-height:100vh;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.topbar{
+  max-width:1000px; margin: 24px auto 8px; padding:0 16px;
+  display:flex; align-items:center; gap:16px;
+}
+.topbar h1{ font-size: clamp(1.2rem, 2.5vw, 2rem); margin:0; }
+.back{ color:#ffd98a; text-decoration:none; opacity:.9 }
+.back:hover{ text-decoration:underline; }
+
+/* moods */
+.moods{
+  max-width:1000px; margin: 8px auto 22px; padding:0 16px;
+  display:flex; flex-wrap:wrap; gap:10px;
+}
+.mood, #btn-surprise{
+  border:none; cursor:pointer; padding:10px 14px; border-radius:999px;
+  background:#233042; color:#fff; opacity:.9; transition:transform .15s, box-shadow .25s, background .25s;
+}
+.mood:hover, #btn-surprise:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  background:#2b3a4f;
+}
+.mood.active{ outline:2px solid rgba(255,217,138,.6); background:#31465f; }
+
+/* viewer */
+#viewer{ padding: 8px 16px 32px; }
+.viewer-inner{
+  max-width:1000px; margin:0 auto; display:grid; gap:16px;
+  grid-template-columns: 260px 1fr;
+}
+#liste{
+  background: rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px; padding:12px; height: fit-content;
+}
+#liste h3{
+  margin:6px 8px 8px; font-size:0.95rem; opacity:.9;
+}
+#liste .item{
+  display:block; border-radius:10px; padding:10px 12px; margin:6px 0;
+  background: transparent; color:#fff; text-decoration:none; opacity:.9;
+  border:1px solid transparent;
+}
+#liste .item:hover{ background: rgba(255,255,255,.04); }
+#liste .item.active{
+  border-color: rgba(255,217,138,.5);
+  background: linear-gradient(180deg, rgba(255,217,138,.12), rgba(255,217,138,.04));
+}
+
+#conte{
+  background: rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:16px; padding:18px;
+}
+#conte header h2{ margin:0 0 6px; font-size: clamp(1.3rem, 2.2vw, 1.8rem); }
+#conte .sous-titre{ margin:0 0 14px; opacity:.85; }
+#vignette{ margin:0 0 10px; }
+#vignette img{
+  width:100%; max-height:220px; object-fit:cover;
+  border-radius:12px; opacity:.95;
+}
+.texte p{ line-height:1.7; margin: 0 0 12px; opacity:.95; }
+
+.actions{ display:flex; gap:8px; margin-top:12px; }
+.actions .ghost{
+  background:transparent; color:#ffd98a; border:1px solid rgba(255,217,138,.5);
+  padding:8px 12px; border-radius:10px; cursor:pointer;
+  transition: background .2s, transform .15s;
+}
+.actions .ghost:disabled{ opacity:.35; cursor:default; }
+.actions .ghost:hover:not(:disabled){ background: rgba(255,217,138,.12); transform:translateY(-1px); }
+
+/* thèmes légers par humeur (accents) */
+body.humeur-triste { --accent: #8ec5ff; }
+body.humeur-perdu  { --accent: #ffd98a; }
+body.humeur-anxieux{ --accent: #b4ffa6; }
+body.humeur-seul   { --accent: #d7b7ff; }
+body.humeur-fatigue{ --accent: #ffb3b3; }
+body.humeur-lum    { --accent: #fff2a6; }
+
+body[class*="humeur-"] .mood.active,
+body[class*="humeur-"] #liste .item.active{
+  outline-color: color-mix(in oklab, var(--accent), #000 40%);
+  border-color: color-mix(in oklab, var(--accent), #000 55%);
+}
+body[class*="humeur-"] #conte{
+  box-shadow: 0 30px 80px color-mix(in oklab, var(--accent), transparent 92%);
+}
+
+/* responsive */
+@media (max-width: 860px){
+  .viewer-inner{ grid-template-columns: 1fr; }
+}
