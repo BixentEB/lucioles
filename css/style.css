@@ -38,3 +38,32 @@ p {
 .enter-button:hover {
   background: #ffe9b0;
 }
+
+/* INTRO */
+/* Luciole : un petit point lumineux qui brille */
+#firefly{
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe9b0 0%, #ffd36b 40%, rgba(255,211,107,0.0) 70%);
+  box-shadow: 0 0 10px 2px #ffd36b, 0 0 24px 8px rgba(255,211,107,0.35);
+  pointer-events: none;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  animation: firefly-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes firefly-glow{
+  0%,100%{ filter: drop-shadow(0 0 6px #ffd36b) drop-shadow(0 0 16px rgba(255,211,107,.35)); opacity: .95; }
+  50%{    filter: drop-shadow(0 0 10px #ffd36b) drop-shadow(0 0 26px rgba(255,211,107,.5));  opacity: 1; }
+}
+
+/* légère mise en avant du bouton quand la luciole s’en approche (facultatif) */
+.enter-button.is-near{
+  box-shadow: 0 0 0 4px rgba(255,211,107,.25), 0 6px 18px rgba(0,0,0,.35);
+}
+
+/* accessibilité : si l’utilisateur préfère moins d’animations, on calme tout */
+@media (prefers-reduced-motion: reduce){
+  #firefly{ animation: none; }
+}
