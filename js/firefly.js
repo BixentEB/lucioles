@@ -16,6 +16,7 @@
   let seek = false;
   let orbit = false;
   let t = 0; // temps pour l’orbite
+  let rx = 24, ry = 16; // rayons d’orbite autour du bouton
 
   // viser le centre du bouton
   function getButtonCenter(){
@@ -76,18 +77,25 @@
       vx *= 0.96;
       vy *= 0.96;
 
-      // orbite si très proche
-      if(dist < 22){
+      // entrer en orbite quand on est "proche" du bouton
+      const rect = btn.getBoundingClientRect();
+      const trigger = Math.max(rect.width, rect.height) * 0.6;
+      if(dist < trigger){
         orbit = true;
         seek = false;
-        t = 0;
+        // rayons juste à l'extérieur du bouton (pilule)
+        rx = Math.max(rect.width  / 2 + 16, 28);
+        ry = Math.max(rect.height / 2 + 12, 20);
+        // angle de départ aligné pour éviter le saut
+        t = Math.atan2(y - cy, x - cx);
       }
     } else if(orbit){
+      // orbite elliptique bien visible autour du bouton
       const {cx, cy} = getButtonCenter();
-      const radius = 14;
       t += 0.05;
-      x = cx + Math.cos(t)*radius;
-      y = cy + Math.sin(t)*radius * 0.6;
+      const bob = Math.sin(t * 2) * 2; // petit flottement
+      x = cx + Math.cos(t) * rx;
+      y = cy + Math.sin(t) * ry + bob;
     } else {
       // errance douce
       vx += (Math.random() - 0.5) * 0.05;
