@@ -99,3 +99,9 @@ body[class*="humeur-"] #conte{
 @media (max-width: 860px){
   .viewer-inner{ grid-template-columns: 1fr; }
 }
+
+#conte.fade { animation: conte-fade .35s ease; }
+@keyframes conte-fade {
+  from { opacity:0; transform: translateY(6px); }
+  to   { opacity:1; transform: none; }
+}
