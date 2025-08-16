@@ -40,30 +40,72 @@ p {
 }
 
 /* INTRO */
-/* Luciole : un petit point lumineux qui brille */
+/* ——— LUCIOLE VERSION ÉTHÉRÉE ——— */
 #firefly{
   position: fixed;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffe9b0 0%, #ffd36b 40%, rgba(255,211,107,0.0) 70%);
-  box-shadow: 0 0 10px 2px #ffd36b, 0 0 24px 8px rgba(255,211,107,0.35);
   pointer-events: none;
   z-index: 5;
   transform: translate(-50%, -50%);
-  animation: firefly-glow 2.4s ease-in-out infinite;
+  width: 0; height: 0; /* plus de disque visible */
 }
 
-@keyframes firefly-glow{
-  0%,100%{ filter: drop-shadow(0 0 6px #ffd36b) drop-shadow(0 0 16px rgba(255,211,107,.35)); opacity: .95; }
-  50%{    filter: drop-shadow(0 0 10px #ffd36b) drop-shadow(0 0 26px rgba(255,211,107,.5));  opacity: 1; }
+/* noyau très discret */
+#firefly::before{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  width:6px; height:6px;
+  border-radius:50%;
+  /* un centre à peine présent + un halo serré */
+  background: radial-gradient(circle,
+    rgba(255, 230, 150, 0.55) 0%,
+    rgba(255, 210, 100, 0.35) 35%,
+    rgba(255, 210, 100, 0) 65%
+  );
+  filter: blur(0.4px);
+  transform: translate(-50%, -50%);
+  animation: twinkle 2.6s ease-in-out infinite;
+  mix-blend-mode: screen; /* fusion + douce sur fond sombre */
 }
 
-/* légère mise en avant du bouton quand la luciole s’en approche (facultatif) */
+/* grande lueur dorée diffusée */
+#firefly::after{
+  content:"";
+  position:absolute;
+  left:0; top:0;
+  width:120px; height:120px;
+  border-radius:50%;
+  background: radial-gradient(circle,
+    rgba(255, 232, 168, 0.15) 0%,
+    rgba(255, 215, 120, 0.12) 35%,
+    rgba(255, 205, 90, 0.08) 55%,
+    rgba(255, 205, 90, 0.03) 75%,
+    rgba(255, 205, 90, 0) 100%
+  );
+  filter: blur(6px);
+  transform: translate(-50%, -50%);
+  animation: breathe 3.8s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* micro scintillement du noyau */
+@keyframes twinkle{
+  0%,100%{ opacity:.85; transform: translate(-50%, -50%) scale(1); }
+  50%    { opacity:1;    transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* respiration lente du halo */
+@keyframes breathe{
+  0%,100%{ opacity:.8; transform: translate(-50%, -50%) scale(1); }
+  50%    { opacity:1;   transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* léger highlight du bouton quand la luciole “approche” */
 .enter-button.is-near{
-  box-shadow: 0 0 0 4px rgba(255,211,107,.25), 0 6px 18px rgba(0,0,0,.35);
+  box-shadow: 0 0 0 4px rgba(255,211,107,.18), 0 10px 24px rgba(0,0,0,.35);
 }
 
-/* accessibilité : si l’utilisateur préfère moins d’animations, on calme tout */
+/* respect des préférences utilisateur */
 @media (prefers-reduced-motion: reduce){
-  #firefly{ animation: none; }
+  #firefly::before, #firefly::after{ animation: none; }
 }
